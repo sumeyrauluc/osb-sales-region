@@ -1,0 +1,54 @@
+﻿OSB SATIŞ BÖLGELERİ — NASIL AÇILIR?
+====================================
+
+1) AÇMAK
+   "OSB-Satis-Bolgeleri.html" dosyasına çift tıklayın. Microsoft Edge'de açılır.
+   Başka bir programda açılırsa: dosyaya sağ tıklayın > Birlikte aç > Microsoft Edge.
+
+   Kurulum yoktur. İnternet gerekmez. Yönetici (admin) yetkisi gerekmez.
+
+2) NEDEN VPN / FIREWALL SORUNU ÇIKARMAZ?
+   - Program tek bir dosyadır; harita (iller, ilçeler ve OSB'ler) dosyanın içine gömülüdür.
+   - Hiçbir internet adresine bağlanmaz, hiçbir port açmaz, sunucu çalıştırmaz.
+   - Bu yüzden VPN açık da olsa kapalı da olsa aynı şekilde çalışır;
+     firewall'da izin ya da kural tanımlamaya gerek yoktur.
+
+3) DOSYAYI ŞİRKET BİLGİSAYARINA TAŞIMAK
+   Aşağıdakilerden hangisi şirkette serbestse onu kullanın:
+   - Şirketin ortak klasörü / ağ sürücüsü
+   - Teams, OneDrive ya da SharePoint
+   - E-posta: .html ekleri çoğu şirkette engellenir; bu yüzden ZIP halini gönderin.
+   - USB bellek (şirkette USB kapalı değilse)
+
+   Dosya e-posta ya da internetten indiyse Windows "bu dosya başka bir
+   bilgisayardan geldi" diyebilir. Bu durumda: dosyaya sağ tıklayın > Özellikler >
+   en altta "Engellemeyi kaldır" kutusunu işaretleyin > Tamam.
+
+4) YAPTIKLARIM NEREYE KAYDEDİLİYOR?
+   Bölgeler, o bilgisayardaki Edge'in hafızasına otomatik kaydedilir.
+   Önemli: Şirket bilgisayarı Edge geçmişini/verilerini kapanışta siliyorsa
+   ya da biri "tarama verilerini temizle" derse bu kayıt da silinir.
+   Güvende olmak için, her düzenlemeden sonra:
+
+      sol altta "Paylaşım kopyası" > "Düzenlenebilir" > Kopyayı indir
+
+   İnen dosyanın içinde bölgeleriniz gömülüdür. O dosyayı açtığınızda
+   her şey kaldığı yerden gelir. Bu dosyayı saklayın; asıl kaydınız odur.
+
+5) SATIŞÇILARLA PAYLAŞMAK
+      "Paylaşım kopyası" > "Sadece görüntüleme" > Kopyayı indir
+   İnen tek dosyayı satışçılara gönderin. Açtıklarında haritayı ve kendi
+   bölgelerini görürler ama değiştiremezler. Bölgeleri değiştirdiğinizde
+   yeni bir kopya indirip tekrar gönderin.
+
+6) PDF ALMAK
+   Sol alttaki "PDF önizleme" düğmesine basın. Ortada harita, solda bölgeler
+   ve içerikleri, sağda özet bilgiler, altta notlar alanı olan bir sayfa açılır.
+   - Üstteki "Bölge" listesinden tüm bölgeleri ya da tek bir bölgeyi seçin.
+   - "Harita" listesinden Ankara, Türkiye ya da o anki görünümü seçin.
+   - Başlığı ve alttaki Notlar alanını doğrudan sayfanın üzerinde yazın.
+   - "PDF indir" deyin; dosya İndirilenler klasörüne iner.
+
+7) BAŞKA BİR YÖNETİCİ DE DÜZENLEYECEKSE
+   "Paylaşım kopyası" > "Düzenlenebilir" kopyayı gönderin. Aynı anda iki kişi
+   ayrı ayrı düzenlerse değişiklikler birleşmez; en son gönderilen kopya geçerlidir.

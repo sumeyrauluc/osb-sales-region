@@ -1,0 +1,15 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.519347463024324,39.9453343740794]},"properties":{"tamAd":"Ahi Evran OSB","kaynak":"osm","ad":"Ahi Evran OSB","ilce":"Sincan","id":"osb1"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.463957935748,39.8076628135133]},"properties":{"tamAd":"Alcı OSB","kaynak":"osm","ad":"Alcı OSB","ilce":"Sincan","id":"osb2"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.41439999391028,39.805415891699866]},"properties":{"tamAd":"Malıköy Dökümcüler OSB","kaynak":"osm","ad":"Dökümcüler OSB","ilce":"Sincan","id":"osb3"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.54558229164933,39.98044386476604]},"properties":{"tamAd":"Ankara Sanayi Odası 1. Organize Sanayi Bölgesi","kaynak":"osm","ad":"ASO 1. OSB","ilce":"Sincan","id":"osb4"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.742436384543595,39.97525004187872]},"properties":{"tamAd":"Ostim Organize Sanayi Bölgesi","kaynak":"osm","ad":"OSTİM OSB","ilce":"Yenimahalle","id":"osb5"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.41361709784095,39.800008294053896]},"properties":{"tamAd":"Anadolu Organize Sanayi Bölgesi","kaynak":"osm","ad":"Anadolu OSB","ilce":"Sincan","id":"osb6"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.445656590770184,39.80100857657257]},"properties":{"tamAd":"Ankara II. Organize Sanayi Bölgesi","kaynak":"osm","ad":"Ankara II. OSB","ilce":"Sincan","id":"osb7"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.38078922013861,39.80593738355095]},"properties":{"tamAd":"Başkent Organize Sanayi Bölgesi","kaynak":"osm","ad":"Başkent OSB","ilce":"Sincan","id":"osb8"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.746478753223464,39.99251107675336]},"properties":{"tamAd":"İvedik Organize Sanayi Bölgesi","kaynak":"osm","ad":"İvedik OSB","ilce":"Yenimahalle","id":"osb9"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[32.59074772352736,40.062121910315355]},"properties":{"tamAd":"Ankara Uzay ve Havacılık İhtisas Organize Sanayi Bölgesi","kaynak":"osm","ad":"Uzay ve Havacılık İhtisas OSB","ilce":"Kahramankazan","id":"osb10"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[33.290955762916425,39.93336161514278]},"properties":{"tamAd":"Elmadağ Mobilyacılar İhtisas Organize Sanayi Bölgesi","kaynak":"osm","ad":"Elmadağ Mobilyacılar İhtisas OSB","ilce":"Elmadağ","id":"osb11"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[33.169057066918455,39.95419796450298]},"properties":{"tamAd":"Hasanoğlan Organize Sanayi Bölgesi","kaynak":"osm","ad":"Hasanoğlan OSB","ilce":"Elmadağ","id":"osb12"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[33.60227540767636,38.91230273908377]},"properties":{"tamAd":"Şereflikoçhisar Organize Sanayi Bölgesi","kaynak":"osm","ad":"Şereflikoçhisar OSB","ilce":"Şereflikoçhisar","id":"osb13"}}
+]}

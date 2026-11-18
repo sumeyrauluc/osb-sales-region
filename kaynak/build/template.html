@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSB Satış Bölgeleri</title>
+<style>/*LEAFLET_CSS*/</style>
+<style>
+:root{
+  --ink:#1f2430; --ink2:#4a5263; --mut:#8a92a3; --line:#e7e9ee; --soft:#f4f5f8;
+  --panel:#fff; --acc:#F5B400; --acc-ink:#3a2c00; --danger:#d64545; --ok:#1e9e6a;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;color:var(--ink);background:#eef1f5;font-size:14px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+#app{display:flex;height:100vh}
+
+/* ---------- Sidebar ---------- */
+#side{width:372px;flex:none;background:var(--panel);display:flex;flex-direction:column;box-shadow:2px 0 22px rgba(20,24,35,.10);z-index:1000;position:relative}
+.brand{display:flex;gap:12px;align-items:center;padding:18px 20px 12px;background:var(--ink);color:#fff}
+.logo{width:42px;height:42px;border-radius:12px;background:var(--acc);display:grid;place-items:center;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.brand h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px}
+.brand p{margin:2px 0 0;font-size:12px;color:#aab1c0}
+.tabs{display:flex;gap:4px;padding:8px 12px 0;background:var(--ink)}
+.tabs button{flex:1;border:0;background:transparent;color:#aab1c0;padding:10px 8px;font-weight:600;font-size:13px;border-radius:10px 10px 0 0;cursor:pointer}
+.tabs button:hover{color:#fff}
+.tabs button.on{background:var(--panel);color:var(--ink)}
+#sideBody{flex:1;overflow:auto;padding:16px 16px 22px}
+#sideFoot{border-top:1px solid var(--line);padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#fbfbfc}
+#saveState{font-size:11px;color:var(--mut);width:100%;padding:0 2px 2px}
+.warnbar{display:block;background:#fff4cc;color:#7a5a00;border-radius:8px;padding:7px 9px;line-height:1.45;font-size:11.5px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 11px;font-weight:600;font-size:13px;cursor:pointer;transition:background .15s,border-color .15s,transform .05s;white-space:nowrap}
+.btn:hover{background:var(--soft);border-color:#d6d9e0}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.btn.primary:hover{background:#ffc21a}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.dark:hover{background:#2c3242}
+.btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--soft)}
+.btn.danger{color:var(--danger)}
+.btn.sm{padding:5px 9px;font-size:12px}
+.btn svg{flex:none}
+.icon-btn{border:0;background:transparent;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:var(--mut);flex:none}
+.icon-btn:hover{background:#eceef2;color:var(--danger)}
+
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px}
+.sec-head h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px}
+.count{background:var(--soft);color:var(--ink2);border-radius:20px;padding:1px 8px;font-size:12px;font-weight:600}
+
+.progress{background:var(--soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.progress .lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-bottom:8px}
+.progress .lbl b{color:var(--ink)}
+.bar{height:8px;border-radius:8px;background:#e3e6ec;overflow:hidden;display:flex}
+.bar span{display:block;height:100%}
+
+.rcard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:var(--r,12px);padding:12px;margin-bottom:8px;cursor:pointer;position:relative;overflow:hidden;transition:box-shadow .15s,border-color .15s}
+.rcard:hover{border-color:#d4d8e0;box-shadow:0 6px 18px rgba(20,24,35,.07)}
+.rcard .chip{width:38px;height:38px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px}
+.rcard .main{flex:1;min-width:0}
+.rcard .rname{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rcard .rrep{font-size:12px;color:var(--ink2);margin-top:2px;display:flex;align-items:center;gap:4px}
+.rcard .stats{text-align:right;font-size:11px;color:var(--mut);line-height:1.5;flex:none}
+.rcard .stats b{color:var(--ink);font-size:13px}
+
+.empty{text-align:center;padding:28px 18px;border:1.5px dashed #dcdfe6;border-radius:14px;color:var(--ink2);background:#fcfcfd}
+.empty h3{margin:10px 0 6px;font-size:15px;color:var(--ink)}
+.empty p{margin:0 0 14px;font-size:13px;line-height:1.5}
+
+.back{border:0;background:none;color:var(--ink2);font-weight:600;cursor:pointer;padding:4px 0;margin-bottom:10px;display:flex;align-items:center;gap:4px;font-size:13px}
+.back:hover{color:var(--ink)}
+.dhead{border-radius:14px;padding:16px;color:#fff;background:var(--c);position:relative;overflow:hidden;margin-bottom:14px}
+.dhead:after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.12)}
+.dhead h2{margin:0;font-size:19px;position:relative}
+.dhead .rep{margin-top:6px;font-size:13px;opacity:.95;display:flex;align-items:center;gap:6px;position:relative}
+.dhead .acts{display:flex;gap:6px;margin-top:12px;position:relative}
+.dhead .acts .btn{background:rgba(255,255,255,.18);border-color:transparent;color:#fff}
+.dhead .acts .btn:hover{background:rgba(255,255,255,.3)}
+
+.block{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.bhead{display:flex;align-items:center;justify-content:space-between;padding:11px 12px 11px 14px;background:#fbfbfc;border-bottom:1px solid var(--line);gap:8px}
+.bhead h3{margin:0;font-size:13px;display:flex;align-items:center;gap:6px}
+.item{display:flex;align-items:center;gap:10px;padding:9px 8px 9px 14px;border-bottom:1px solid #f0f1f4;cursor:pointer}
+.item:last-child{border-bottom:0}
+.item:hover{background:#fafbfc}
+.item .dot{width:10px;height:10px;border-radius:3px;flex:none}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .t small{display:block;font-size:11.5px;color:var(--mut);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hint{font-size:12.5px;color:var(--mut);padding:12px 14px;line-height:1.5}
+
+.search{position:relative;margin-bottom:12px}
+.search input{width:100%;padding:10px 12px 10px 36px;border:1px solid var(--line);border-radius:10px;background:var(--soft);outline:none}
+.search input:focus{border-color:var(--acc);background:#fff;box-shadow:0 0 0 3px rgba(245,180,0,.18)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mut)}
+.grp{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:14px 2px 6px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;border-radius:20px;padding:2px 8px;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.pill.none{background:var(--soft);color:var(--mut)}
+.badge{font-size:10px;font-weight:700;background:#fff4cc;color:#7a5a00;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:1px}
+.note{font-size:11.5px;color:var(--mut);line-height:1.5;margin-top:14px;padding:10px 12px;background:var(--soft);border-radius:10px}
+
+/* ---------- Map ---------- */
+#mapwrap{flex:1;position:relative;min-width:0}
+#map{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#eef3f8 0%,#dfe7ef 60%,#d5dee8 100%)}
+.leaflet-container{font-family:inherit}
+.leaflet-control-zoom a{width:34px!important;height:34px!important;line-height:34px!important;color:var(--ink)!important}
+.leaflet-bar{border:0!important;box-shadow:0 4px 14px rgba(20,24,35,.14)!important;border-radius:10px!important;overflow:hidden}
+.leaflet-control-attribution{background:rgba(255,255,255,.7)!important;font-size:10px}
+.m-draw .leaflet-container,.m-draw .leaflet-interactive{cursor:crosshair!important}
+.m-draw .card-tip{display:none}
+.m-assign .leaflet-interactive{cursor:copy!important}
+.pop-open .card-tip{display:none}
+
+.lbl-ilce span{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a1978a;text-shadow:0 0 3px #fbf8f3,0 0 3px #fbf8f3,0 0 3px #fbf8f3}
+.lbl-osb span{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:11px;font-weight:700;color:var(--ink);background:rgba(255,255,255,.92);padding:2px 7px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.15);border-left:3px solid var(--c)}
+.lbl-area span{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:11px;font-style:italic;font-weight:600;color:var(--c);text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+
+.mapbtns{position:absolute;top:14px;left:14px;z-index:800;display:flex;gap:6px}
+.mapbtns .btn{box-shadow:0 4px 14px rgba(20,24,35,.12);border-color:transparent}
+#legend{position:absolute;left:14px;bottom:18px;z-index:800;background:rgba(255,255,255,.96);border-radius:12px;box-shadow:0 6px 20px rgba(20,24,35,.14);padding:10px 12px;max-width:260px;max-height:40vh;overflow:auto;font-size:12px}
+#legend h4{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+#legend .lg{display:flex;align-items:center;gap:8px;padding:3px 0;cursor:pointer}
+#legend .lg:hover b{text-decoration:underline}
+#legend .sw{width:12px;height:12px;border-radius:4px;flex:none}
+#legend .lg span:last-child{margin-left:auto;color:var(--mut);padding-left:8px}
+#legend .sw.un{background:repeating-linear-gradient(45deg,#c3c9d4 0 3px,#e3e6ec 3px 6px);border:1px dashed #7c8595}
+
+#banner{position:absolute;top:14px;left:50%;transform:translate(-50%,-160px);opacity:0;visibility:hidden;z-index:900;background:var(--ink);color:#fff;border-radius:14px;padding:10px 10px 10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 12px 30px rgba(20,24,35,.3);transition:transform .25s ease,opacity .2s;max-width:calc(100% - 140px)}
+#banner.show{transform:translate(-50%,0);opacity:1;visibility:visible}
+#banner .txt{font-size:13px;line-height:1.4}
+#banner .txt b{color:var(--acc)}
+#banner .btns{display:flex;gap:6px;flex:none}
+#banner .btn{background:rgba(255,255,255,.12);border-color:transparent;color:#fff}
+#banner .btn:hover{background:rgba(255,255,255,.22)}
+#banner .btn.primary{background:var(--acc);color:var(--acc-ink)}
+#banner .pulse{width:10px;height:10px;border-radius:50%;background:var(--acc);flex:none;box-shadow:0 0 0 0 rgba(245,180,0,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(245,180,0,0)}100%{box-shadow:0 0 0 0 rgba(245,180,0,0)}}
+
+#toast{position:absolute;bottom:22px;left:50%;transform:translate(-50%,30px);opacity:0;z-index:950;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:500;transition:all .25s;pointer-events:none;box-shadow:0 10px 24px rgba(20,24,35,.25)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.warn{background:#b54708}
+
+/* ---------- Tooltip / popup card ---------- */
+.leaflet-tooltip.card-tip{padding:0;border:0;border-radius:12px;box-shadow:0 12px 32px rgba(20,24,35,.2);background:#fff;white-space:normal;color:var(--ink)}
+.leaflet-tooltip.card-tip:before{display:none}
+.card-pop .leaflet-popup-content-wrapper{padding:0;border-radius:12px;box-shadow:0 12px 32px rgba(20,24,35,.22)}
+.card-pop .leaflet-popup-content{margin:0;width:auto!important;line-height:1.4}
+.card-pop a.leaflet-popup-close-button{top:8px;right:6px;color:var(--mut)}
+.tip{min-width:170px;max-width:250px;padding:11px 13px 10px;border-top:5px solid var(--c,#9aa3b2);border-radius:12px;font-size:12.5px}
+.tip-k{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
+.tip-t{font-size:14px;font-weight:700;margin:2px 0 8px;padding-right:14px;line-height:1.25}
+.tip-region{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:9px;padding:7px 10px;font-size:13px}
+.tip-region .sw{width:12px;height:12px;border-radius:4px;background:var(--c);flex:none}
+.tip-region b{font-size:13.5px}
+.tip-rep{display:flex;align-items:center;gap:6px;margin:8px 2px 0;font-size:13px;font-weight:600}
+.tip-rep small{color:var(--mut)}
+.tip-sec{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:10px 2px 4px}
+.tip ul{margin:0;padding:0;list-style:none}
+.tip li{padding:3px 2px;display:flex;align-items:center;gap:7px}
+.tip li:before{content:"";width:6px;height:6px;border-radius:2px;background:var(--c);flex:none}
+.tip li.ar:before{background:transparent;border:1.5px dashed var(--c);width:5px;height:5px}
+.tip li.cur{font-weight:700}
+.tip li em{color:var(--mut);font-style:normal;font-size:11.5px}
+.tip-empty{color:var(--mut);background:var(--soft);border-radius:9px;padding:9px 10px}
+.tip-none{color:var(--mut);padding:2px}
+.tip-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.tip-acts .lbl{width:100%;font-size:11px;color:var(--mut)}
+
+/* ---------- Modal ---------- */
+#modal{position:fixed;inset:0;background:rgba(20,24,35,.45);display:none;align-items:center;justify-content:center;z-index:5000;padding:16px;backdrop-filter:blur(2px)}
+#modal.show{display:flex}
+.dlg{background:#fff;border-radius:16px;width:420px;max-width:100%;box-shadow:0 30px 60px rgba(0,0,0,.3);overflow:hidden;animation:pop .18s ease}
+@keyframes pop{from{transform:scale(.96);opacity:0}}
+.dlg h3{margin:0;padding:18px 20px 4px;font-size:17px}
+.dlg .desc{padding:0 20px;color:var(--ink2);font-size:13px;line-height:1.5}
+.dlg form{padding:12px 20px 0}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:5px}
+.fld input[type=text],.fld input[type=tel],.fld select,.fld textarea{width:100%;padding:9px 11px;border:1px solid #dcdfe6;border-radius:9px;outline:none;background:#fff}
+.fld textarea{resize:vertical;min-height:60px}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(245,180,0,.2)}
+.swatches{display:flex;flex-wrap:wrap;gap:7px}
+.swatches label{margin:0;cursor:pointer}
+.swatches input{display:none}
+.swatches span{display:block;width:28px;height:28px;border-radius:8px;border:3px solid #fff;box-shadow:0 0 0 1px #dcdfe6}
+.swatches input:checked+span{box-shadow:0 0 0 2px var(--ink)}
+.dlg .foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 20px 18px}
+.btn.del{background:var(--danger);border-color:var(--danger);color:#fff}
+
+.pick{width:100%;justify-content:center;padding:10px;margin-bottom:12px}
+.tag{font-size:10px;font-weight:700;background:var(--soft);color:var(--ink2);border-radius:4px;padding:1px 5px;margin-left:5px;vertical-align:1px}
+.item.sub{padding-left:32px}
+.item .dot.il{border-radius:50%}
+.ro .edit-only,.ro [data-act="import-json"],.ro [data-act="share"]{display:none!important}
+.m-draw #map{touch-action:none}
+.m-draw .leaflet-tooltip{display:none}
+.lbl-il span{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#aea493;text-shadow:0 0 3px #f6f3ec,0 0 3px #f6f3ec}
+details.more{margin-top:14px}
+details.more summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding:8px 2px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary:before{content:"▸";font-size:11px;transition:transform .15s}
+details.more[open] summary:before{transform:rotate(90deg)}
+details.more summary small{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600;color:var(--ink2)}
+#pdfview{position:fixed;inset:0;z-index:4000;background:#2b303b;display:flex;flex-direction:column}
+#pdfview[hidden]{display:none}
+.pv-bar{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--ink);color:#fff;flex-wrap:wrap}
+.pv-bar b{font-size:15px;margin-right:4px}
+.pv-bar label{font-size:12px;color:#aab1c0;display:flex;align-items:center;gap:6px}
+.pv-bar select{background:#2c3242;color:#fff;border:1px solid #3a4152;border-radius:8px;padding:6px 8px;max-width:260px}
+.pv-bar .sp{flex:1}
+.pv-bar .btn:not(.primary){background:rgba(255,255,255,.1);border-color:transparent;color:#fff}
+.pv-bar .btn:disabled{opacity:.6;cursor:wait}
+.pv-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.pv-page{position:relative;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.45);flex:none}
+.pv-page canvas{position:absolute;inset:0;width:100%;height:100%}
+.pv-page input,.pv-page textarea{position:absolute;margin:0;border:1.5px dashed #d5d9e1;background:transparent;outline:none;font-family:"Segoe UI","Segoe UI Variable Text",system-ui,sans-serif;color:#1f2430;border-radius:4px;resize:none;box-sizing:border-box}
+.pv-page input{font-weight:700;padding:0 4px}
+.pv-page textarea{padding:2px 4px;line-height:1.4}
+.pv-page input:hover,.pv-page textarea:hover{border-color:#aab1c0}
+.pv-page input:focus,.pv-page textarea:focus{border-color:var(--acc);background:rgba(245,180,0,.06)}
+.pv-hint{color:#aab1c0;font-size:12px;text-align:center;padding:0 0 12px}
+.pv-hint b{color:#fff}
+@media (max-width:760px){
+  #app{flex-direction:column-reverse}
+  #side{width:100%;height:46vh}
+  #legend{display:none}
+  #banner{max-width:calc(100% - 24px);flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<script id="seed" type="application/json">null</script>
+<div id="app">
+  <aside id="side">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#1f2430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17V10h5.5l3 4.5V17"/><path d="M3 10V6h4l1.5 4"/><path d="M15 3v14h6"/><path d="M15 13h4"/><circle cx="6" cy="18" r="2" fill="#F5B400"/><circle cx="11.5" cy="18" r="2" fill="#F5B400"/></svg>
+      </div>
+      <div><h1>OSB Satış Bölgeleri</h1><p>Ankara · organize sanayi haritası</p></div>
+    </div>
+    <nav class="tabs">
+      <button data-tab="regions" class="on">Bölgeler</button>
+      <button data-tab="osbs">Liste</button>
+    </nav>
+    <div id="sideBody"></div>
+    <div id="sideFoot">
+      <div id="saveState">Değişiklikler bu bilgisayarda otomatik kaydedilir</div>
+      <button class="btn sm primary" data-act="pdf-open" title="Haritayı ve bölgeleri tek sayfalık PDF olarak hazırla">PDF önizleme</button>
+      <button class="btn sm dark" data-act="share" title="Bölgeleriniz içinde gömülü, başka bilgisayarda açılabilen tek dosya">Paylaşım kopyası</button>
+      <button class="btn sm" data-act="export-json" title="Tüm bölgeleri dosya olarak indir">⭳ Yedek indir</button>
+      <button class="btn sm" data-act="import-json" title="Yedek dosyasından geri yükle">⭱ Yedek yükle</button>
+      <button class="btn sm" data-act="export-csv" title="Excel'de açılabilir liste">Excel listesi</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+  </aside>
+  <main id="mapwrap">
+    <div id="map"></div>
+    <div class="mapbtns">
+      <button class="btn sm" data-act="fit-all">Tüm Ankara</button>
+      <button class="btn sm" data-act="fit-core">OSB yoğun bölge</button>
+      <button class="btn sm" data-act="fit-tr">Türkiye (il il)</button>
+    </div>
+    <div id="banner"></div>
+    <div id="legend"></div>
+    <div id="toast"></div>
+  </main>
+</div>
+<div id="modal"></div>
+<div id="pdfview" hidden>
+  <div class="pv-bar">
+    <b>PDF önizleme</b>
+    <label>Bölge <select id="pvRegion"></select></label>
+    <label>Harita <select id="pvExtent"></select></label>
+    <span class="sp"></span>
+    <button class="btn primary" data-act="pdf-download">PDF indir</button>
+    <button class="btn" data-act="pdf-close">Kapat</button>
+  </div>
+  <div class="pv-stage"><div class="pv-page" id="pvPage"><canvas id="pvCanvas"></canvas><input id="pvTitle" autocomplete="off" title="Başlığı düzenleyin"><textarea id="pvNotes" placeholder="Buraya not yazabilirsiniz (ör. hedefler, toplantı kararları, iletişim bilgileri)…"></textarea></div></div>
+  <div class="pv-hint">Başlığı ve alttaki <b>Notlar</b> alanını doğrudan sayfanın üzerinde düzenleyebilirsiniz. Değişiklikler kaydedilir.</div>
+</div>
+
+<script>/*LEAFLET_JS*/</script>
+<script>
+const ILCE = /*ILCE*/;
+const IL = /*IL*/;
+const ILLER = /*ILLER*/;
+const OSB = /*OSB*/;
+</script>
+<script>
+/*APP_JS*/
+</script>
+</body>
+</html>

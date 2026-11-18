@@ -1,0 +1,7 @@
+# Gerçek bölge verisi içerebilecek dosyalar GitHub'a gitmesin
+satis-bolgeleri-*.json
+satis-bolgeleri-*.csv
+satis-bolgeleri-*.pdf
+OSB-Satis-Bolgeleri-*.html
+*.zip
+__pycache__/
